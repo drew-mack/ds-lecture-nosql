@@ -1,0 +1,19 @@
+<h1 id="nosql-databases">NoSQL Databases</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Before databases, computers would store data in formats such as files on disk, or even paper with holes punched in it very early on. The emergence of the database was a revolution in the field of data storage. At the time of their inception, Structured Query Language, or SQL style databases quickly dominated the database space. Data within SQL databases can only be stored once a relationship or relationships between the data have been defined. For that reason, SQL databases are referred to as <em>relational</em> databases. But just as storage media before them, the concept could be iterated upon to better suit the needs of some tasks. To that end, many projects in the world of software development have taken to employing NoSQL databases.</p>
+<p>Exactly how they sound, NoSQL databases do not require the definition or a relational structure in order to start storing data. This freedom grants many of strengths present in NoSQL databases that their SQL sisters lack. The two critical advantages for NoSQL are syntax and scalability. Although quality SQL syntax resources are plentiful<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, the necessary notation for describing and working within the pre-defined schema of a relational database can feel restrictive. As far as scalability, SQL databases scale vertically, whereas NoSQL databases scale horizontally. What that essentially means is SQL databases need a more powerful server in order to serve more clients, but a NoSQL database only needs more servers at all. This flexibility allows NoSQL databases to potentially expand much more rapidly than SQL servers, thus accomodating datasets that increase in size more rapidly<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
+<p>Many NoSQL database frameworks have been developed by various software manufacturers, and each comes with its own strengths and weaknesses. Some of the most popular are MongoDB, Redis, HBase, DynamoDB, Neo4j, InfoGrid, and the list goes on. Aside from implementation, the necessity of different frameworks comes from the desire for different data storage structures. Whereas SQL databases typically only come in one storage structure, tables, NoSQL databases have variety. Some of these structures are document storage as in MongoDB<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a>, coulumn storage as in HBase<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>, graph storage as in InfoGrid, and key value storage as in Redis<a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>. Each has its ideal use case, and each could stand as a section of its own. For the purpose of introduction, we have elected to use Redis as its base functionality is relatively simple, but its full potential is vast.</p>
+<div class="figure">
+<img src="./images/redis_logo.png" alt="redis logo" />
+<p class="caption">redis logo</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Refsnes Data, 2019, https://www.w3schools.com/sql/<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Laura Shiff, 2018, https://www.bmc.com/blogs/sql-vs-nosql/<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>Mongo DB, 2019, https://www.mongodb.com/what-is-mongodb<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>Apache Software Foundation, 2019, http://hbase.apache.org/<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>Redis Labs, 2019, https://redis.io/topics/introduction<a href="#fnref5">↩</a></p></li>
+</ol>
+</div>
