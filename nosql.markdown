@@ -44,7 +44,7 @@ by means of dumping, or by maintaining a log of actions that can be used to repl
 Its key value data storage supports values stored as strings, lists, sets, bitmaps, hyperloglogs, and
 geospatial indicies[^5]. In addition to serving as a cache in this way, redis provides a host of
 other features such as providing a publisher/subscriber messenger service, server-based Lua script
-execution, and built in time to live support.
+execution, and built in time to live support for an instance's members.
 
 ### Installing Redis
 
@@ -61,8 +61,6 @@ After installing, to run an instance of Redis one would send the following comma
 ~~~~~
 sudo service redis-server start
 ~~~~~
-
-### Getting Started
 
 Now that one has an instance of the server up and running on the default host and port, `127.0.0.1`,
 and `6379` respectively, one can connect to it. The command for such is as follows.
@@ -92,12 +90,72 @@ pattern syntax is as follows[^6]:
 * h[^e]llo matches hallo, hbllo, ... but not hello
 * h[a-b]llo matches hallo and hbllo
 * \\\]\\\^\\\*\\\? matches \]\^\*\?
+
 So in the previous example, `KEYS *` returns every possible key as the `*` pattern means any combination of
 characters.
+
+### Lists
+
+To alleviate the lack of members in the Redis server, one could add a list like so.
+
+~~~~~
+127.0.0.1:6379> RPUSH good_list "good value"
+(integer) 1
+~~~~~
+
+It is important to note here that we haven't defined `good_list` at any point before appending the string
+`"good value"` to it. This is because of the practicality built-in to Redis' semantic design. Before a list
+exists, the only way to add to it is to `RPUSH` a value or values into it. And in case one wants to be sure
+that the list they are trying to append to already exists before they do so, `RPUSHX` satisfies that
+use case. The other stipulation that `RPUSHX` imposes is that only one value can be added to a list with it,
+whereas `RPUSH` allows for appending of any number of items to a list in one command. Redis also supports
+ the same operations from the beginning of the list, rather than the end, with `LPUSH` and `LPUSHX`.
+
+A bit of important information that redis gives the user with `RPUSH` is the integer in the return statement,
+`(integer) 1`. The parenthesized `integer` in the return is merely a quality of life feature standard in
+redis returns. Here its inclusion serves to explicity indicate that the value `1` is an integer and not a
+string. The number 1 itself represents the length of the list after `RPUSH`ing `"good_value"`. We will see
+the same kind of inclusion with `LRANGE` right now, along with `RPUSH` appending multiple values to `good_list`.
+
+~~~~~
+127.0.0.1:6379> RPUSH good_list "another good one" 45
+(integer) 3
+127.0.0.1:6379> LRANGE good_list 0 -1
+1) "good value"
+2) "another good one"
+3) "45"
+~~~~~
+
+In this example, `LRANGE` is used to retrieve a subset of values from `good_list` beginning at index `0` and
+ending at index `-1`. Redis supports indexing based on relative position from the front with positive numbers
+and 0, as well as from relative position to the back with negative numbers. Given the indicies, the
+subset this particular `LRANGE` retrieved is the entire list, as is the case with all `0 -1` retrievals.
+On the note of indicies, Redis accomodates those that might be considered invalid. For instance, a starting
+index bigger than the ending index will simply return an empty list of results, and an ending index
+larger than the actual final index in the list will default to the final index of the list.
+
+Speaking of indicies, Redis also supports index based item retrieval like so.
+
+~~~~~
+127.0.0.1:6379> LINDEX good_list 2
+"45"
+~~~~~
+
+We hope this short demonstration serves as an easy introduction to Redis lists, but the support that Redis
+offers for lists doesn't stop there by a long shot. In addition to what is shown here, they support:
+* Popping from the left or right, blocking or non-blocking
+* Retrieving the length of a list
+* Inserting at a given index
+* Setting a given index's value
+* Removing at a given index
+* Trimming to a desired size
+* Cycling from the member on the back of a list to the front
+
+
 
 [^1]: Refsnes Data, 2019, https://www.w3schools.com/sql/  
 [^2]: Laura Shiff, 2018, https://www.bmc.com/blogs/sql-vs-nosql/  
 [^3]: Mongo DB, 2019, https://www.mongodb.com/what-is-mongodb  
 [^4]: Apache Software Foundation, 2019, http://hbase.apache.org/  
-[^5]: Redis Labs, 2019, https://redis.io/topics/introduction
-[^6]: Redis Labs, 2019,  https://redis.io/commands/keys
+[^5]: Redis Labs, 2019, https://redis.io/topics/introduction  
+[^6]: Redis Labs, 2019,  https://redis.io/commands/keys  
