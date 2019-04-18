@@ -44,9 +44,11 @@ by means of dumping, or by maintaining a log of actions that can be used to repl
 Its key value data storage supports values stored as strings, lists, sets, bitmaps, hyperloglogs, and
 geospatial indicies[^5]. In addition to serving as a cache in this way, redis provides a host of
 other features such as providing a publisher/subscriber messenger service, server-based Lua script
-execution, and built in time to live support for an instance's members.
+execution, pipelines that support sending many commands at the same time to save on network round
+trip time, streams that act like maps with built in history, and built in time to live support
+for an instance's keys.
 
-### Installing Redis
+### Getting Started
 
 As officially recommended by Redis Labs, the following is the standard installation method for redis on
 any Debian based Linux distrobution, including Ubuntu, with Apt. Many other dependency resolvers such as
@@ -149,7 +151,59 @@ offers for lists doesn't stop there by a long shot. In addition to what is shown
 * Setting a given index's value
 * Removing at a given index
 * Trimming to a desired size
-* Cycling from the member on the back of a list to the front
+* Cycling the member on the back of a list to the front
+
+### More Storage Options
+
+As mentioned before, Redis actually supports quite a few data-structure like models for storing data. Each
+of these other storage formats suit the needs of some tasks better than others. Some of the broader-application
+models will be expanded upon briefly in this section.
+
+#### Strings
+
+Strings are the most basic data types supported by Redis. Despite their simplicity, they have some
+interesting capabilities. They are obatained and set with `GET` and `SET`, but they can also be obtained
+and set multiple-at-a-time style with `MGET` and `MSET`. The `GETSET` command will return the current value
+and replace it with the value provided. Redis also supports implied integer parsing and incrementation with
+`INCR`, and `EXPIRE` and `PERSIST` allow users to control whether a key will eventually delete itself with the
+previously mentioned time to live feature. All key value types support this feature with their own
+variations of these commands.
+
+#### Hashes
+
+Redis hashes function like, well, hash maps. When defined as follows, they support all of the functionalities
+that one might expect of a hash map such as accessing and setting by field.
+
+~~~~~
+127.0.0.1:6379> HMSET hash_key field1 value1 field2 value2
+OK
+127.0.0.1:6379> HGET hash_key field1
+"value1"
+127.0.0.1:6379> HGETALL hash_key
+1) "field1"
+2) "value1"
+3) "field2"
+4) "value2"
+~~~~~
+
+These hashes are particularly useful for generally representing objects from any object oriented programming
+language.
+
+#### Sets
+
+Redis sets perform in much the same way as mathmatically defined sets with members being unordered and unique.
+In addition to accomodating sets, Redis natively supports basic set-oriented operations such as intersections
+and unions. Some of their practicality comes from being able to internally track membership of other keys in
+certain groups without needing to pull data into a different context to perform useful membership-focused analyses.
+
+#### Sorted Sets
+
+In addition to traditionally implemented sets, Redis supports a bit of a fusion of hashes and sets referred to as
+sorted sets. This fusion derives from the unique member guarantee coupled with a "score" attatched to each
+member which Redis uses to sort them. Scores are determined by the user at the time of entry, editable at any time, and duplicate scores
+are tolerated. To sort identically scored members, Redis evaluates lexigraphical score which is necessarily
+unique since members are necessarily unique. Though less efficient in some functionality, sorted sets excel at
+tasks where fast score-based retrieval is helpful such as retrieving frequency of contact with friends on a social media website.
 
 
 
