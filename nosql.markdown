@@ -14,10 +14,11 @@ to better suit the needs of some tasks. To that end, many projects in the world 
 software development have taken to employing NoSQL databases.
 
 Exactly how they sound, NoSQL databases do not require the definition or a relational structure
-in order to start storing data. This freedom grants many of strengths present in NoSQL
-databases that their SQL sisters lack. The two critical advantages for NoSQL are
-syntax and scalability. Although quality SQL syntax resources are plentiful[^1], the
-necessary notation for describing and working within the pre-defined schema of a
+in order to start storing data. At the same time, NoSQL databases also preserve the
+guarantees critical to the basic function of a database such as operation atomicity.
+This freedom grants many of strengths present in NoSQL databases that their SQL sisters lack.
+The two critical advantages for NoSQL are syntax and scalability. Although quality SQL syntax resources
+are plentiful[^1], the necessary notation for describing and working within the pre-defined schema of a
 relational database can feel restrictive. As far as scalability, SQL databases scale
 vertically, whereas NoSQL databases scale horizontally. What that essentially means is
 SQL databases need a more powerful server in order to serve more clients, but a NoSQL
@@ -153,7 +154,7 @@ offers for lists doesn't stop there by a long shot. In addition to what is shown
 * Trimming to a desired size
 * Cycling the member on the back of a list to the front
 
-### More Storage Options
+### More Storage Options[^7]
 
 As mentioned before, Redis actually supports quite a few data-structure like models for storing data. Each
 of these other storage formats suit the needs of some tasks better than others. Some of the broader-application
@@ -205,7 +206,24 @@ are tolerated. To sort identically scored members, Redis evaluates lexigraphical
 unique since members are necessarily unique. Though less efficient in some functionality, sorted sets excel at
 tasks where fast score-based retrieval is helpful such as retrieving frequency of contact with friends on a social media website.
 
+Key Takeaways
+-------------
 
+By analyzing some of the specifics of Redis, we hope it becomes clear why NoSQL databases are beginning to dominate the
+data storage arena. At the core of its design, Redis was and is built for lightning fast operation. One would be
+right to observe that this emphasis on performance comes from the necessity to fill that niche in the software
+development world. For many purposes, data storage need not be hyper-performing, but the applications where
+saving however many microseconds one can are increasing. In the world of high frequency trading, as well as
+website advertisement bidding, that short time can make the difference between making a good or bad
+decision.
+
+Extrapolating that point, the other NoSQL database technologies seek to and succeed at satisfying similar niches.
+Of course, this doesn't mean that SQL is necessarily obsolescing, but the projects that could benefit from
+faster, more scalable, or more loosely designed data storage utilities are driving these innovations. In an
+obvious way, NoSQL utilities can be viewed as a kind of specialization of databases. If a reliable,
+more custom-fit solution to, let's say, Google needing to store and access data about its service users could
+be well implemented, then of course they would demand innovation of that technology. Many companies
+are applying that same thought process to their own data architechture via NoSQL databases.
 
 [^1]: Refsnes Data, 2019, https://www.w3schools.com/sql/  
 [^2]: Laura Shiff, 2018, https://www.bmc.com/blogs/sql-vs-nosql/  
@@ -213,3 +231,4 @@ tasks where fast score-based retrieval is helpful such as retrieving frequency o
 [^4]: Apache Software Foundation, 2019, http://hbase.apache.org/  
 [^5]: Redis Labs, 2019, https://redis.io/topics/introduction  
 [^6]: Redis Labs, 2019,  https://redis.io/commands/keys  
+[^7]: Redis Labs, 2019, https://redis.io/topics/data-types-intro
